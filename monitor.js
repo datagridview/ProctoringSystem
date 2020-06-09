@@ -1,1 +1,281 @@
-let forwardTimes=[];let withFaceLandmarks=false;let withBoxes=true;let faceMatcher=null;let username="\x75\x73\x65\x72";let absentCount=0;let is_absent=false;const faceCount=20;let collected=0;let faceArray=new window["\x41\x72\x72\x61\x79"]();let start=null;let stop=null;let is_speaking=false;let expr=null;let payloadLength=0;let payloads=new window["\x41\x72\x72\x61\x79"]();let seq=0;let starttime=null;let endtime=null;$("\x23\x6d\x6f\x6e\x69\x74\x6f\x72")['\x64\x72\x61\x67\x67\x61\x62\x6c\x65']();function onChangeWithFaceLandmarks(f1){withFaceLandmarks=$(f1['\x74\x61\x72\x67\x65\x74'])['\x70\x72\x6f\x70']('\x63\x68\x65\x63\x6b\x65\x64')}function onChangeHideBoundingBoxes(e){withBoxes=!$(e['\x74\x61\x72\x67\x65\x74'])['\x70\x72\x6f\x70']('\x63\x68\x65\x63\x6b\x65\x64')}function updateTimeStats(timeInMs){forwardTimes=[timeInMs]['\x63\x6f\x6e\x63\x61\x74'](forwardTimes)['\x73\x6c\x69\x63\x65'](0,30);const avgTimeInMs=forwardTimes['\x72\x65\x64\x75\x63\x65']((total,t)=>total+t)/forwardTimes['\x6c\x65\x6e\x67\x74\x68'];$('\x23\x74\x69\x6d\x65')['\x76\x61\x6c'](`${window["\x4d\x61\x74\x68"]['\x72\x6f\x75\x6e\x64'](avgTimeInMs)}ms`);$('\x23\x66\x70\x73')['\x76\x61\x6c'](`${faceapi['\x72\x6f\x75\x6e\x64'](1000/avgTimeInMs)}`)}function calculateAverCol(gSFNdihh2){let averArray=new window["\x41\x72\x72\x61\x79"]();for(let j=0;j<gSFNdihh2[j%gSFNdihh2['\x6c\x65\x6e\x67\x74\x68']]['\x6c\x65\x6e\x67\x74\x68'];j++){let sum=0;for(let i=0;i<gSFNdihh2['\x6c\x65\x6e\x67\x74\x68'];i++){sum+=gSFNdihh2[i][j]}let aver=sum/gSFNdihh2['\x6c\x65\x6e\x67\x74\x68'];averArray['\x70\x75\x73\x68'](aver)}return averArray}async function onPlay(videoEl){if(!videoEl['\x63\x75\x72\x72\x65\x6e\x74\x54\x69\x6d\x65']||videoEl['\x70\x61\x75\x73\x65\x64']||videoEl['\x65\x6e\x64\x65\x64']||!isFaceDetectionModelLoaded())return setTimeout(()=>onPlay(videoEl));const options=getFaceDetectorOptions();const ts=window["\x44\x61\x74\x65"]['\x6e\x6f\x77']();const drawBoxes=withBoxes;const drawLandmarks=withFaceLandmarks;let results=await faceapi['\x64\x65\x74\x65\x63\x74\x41\x6c\x6c\x46\x61\x63\x65\x73'](videoEl,options)['\x77\x69\x74\x68\x46\x61\x63\x65\x4c\x61\x6e\x64\x6d\x61\x72\x6b\x73']()['\x77\x69\x74\x68\x46\x61\x63\x65\x45\x78\x70\x72\x65\x73\x73\x69\x6f\x6e\x73']()['\x77\x69\x74\x68\x46\x61\x63\x65\x44\x65\x73\x63\x72\x69\x70\x74\x6f\x72\x73']();updateTimeStats(window["\x44\x61\x74\x65"]['\x6e\x6f\x77']()-ts);const canvas=$('\x23\x6f\x76\x65\x72\x6c\x61\x79')['\x67\x65\x74'](0);const dims=faceapi['\x6d\x61\x74\x63\x68\x44\x69\x6d\x65\x6e\x73\x69\x6f\x6e\x73'](canvas,videoEl,true);const resizedResults=faceapi['\x72\x65\x73\x69\x7a\x65\x52\x65\x73\x75\x6c\x74\x73'](results,dims);if(collected<faceCount&&resizedResults['\x6c\x65\x6e\x67\x74\x68']===1){faceArray['\x70\x75\x73\x68'](resizedResults[0]['\x64\x65\x73\x63\x72\x69\x70\x74\x6f\x72']);collected++}else if(collected===faceCount){collected++;labeldFeatures=new Float32Array(calculateAverCol(faceArray));console['\x6c\x6f\x67'](labeldFeatures)}else{const labeledDescriptors=[new faceapi['\x4c\x61\x62\x65\x6c\x65\x64\x46\x61\x63\x65\x44\x65\x73\x63\x72\x69\x70\x74\x6f\x72\x73'](username,[labeldFeatures]),];let faceObject={};faceObject['\x6e\x61\x6d\x65\x73']=[];if(results['\x6c\x65\x6e\x67\x74\x68']){faceMatcher=new faceapi['\x46\x61\x63\x65\x4d\x61\x74\x63\x68\x65\x72'](labeledDescriptors);resizedResults['\x66\x6f\x72\x45\x61\x63\x68'](({detection,descriptor,expressions})=>{const expression=window["\x4f\x62\x6a\x65\x63\x74"]['\x6b\x65\x79\x73'](expressions)['\x73\x6f\x72\x74'](function(a,IvAaZQURB3){return expressions[IvAaZQURB3]-expressions[a]})[0];expr=expression;const label=faceMatcher['\x66\x69\x6e\x64\x42\x65\x73\x74\x4d\x61\x74\x63\x68'](descriptor)['\x74\x6f\x53\x74\x72\x69\x6e\x67']();faceObject['\x6e\x61\x6d\x65\x73']['\x70\x75\x73\x68']((label!=="\x75\x6e\x6b\x6e\x6f\x77\x6e")?label['\x73\x70\x6c\x69\x74'](' ')[0]:label);const options={label};const drawBox=new faceapi['\x64\x72\x61\x77']['\x44\x72\x61\x77\x42\x6f\x78'](detection['\x62\x6f\x78'],options);drawBox['\x64\x72\x61\x77'](canvas)})}if(-1===faceObject['\x6e\x61\x6d\x65\x73']['\x69\x6e\x64\x65\x78\x4f\x66'](username)){absentCount++;if(absentCount===5){absentCount=0;is_absent=true}}else{is_absent=false}if(drawBoxes){faceapi['\x64\x72\x61\x77']['\x64\x72\x61\x77\x46\x61\x63\x65\x45\x78\x70\x72\x65\x73\x73\x69\x6f\x6e\x73'](canvas,resizedResults,minConfidence)}if(drawLandmarks){faceapi['\x64\x72\x61\x77']['\x64\x72\x61\x77\x46\x61\x63\x65\x4c\x61\x6e\x64\x6d\x61\x72\x6b\x73'](canvas,resizedResults);faceapi['\x64\x72\x61\x77']['\x64\x72\x61\x77\x46\x61\x63\x65\x45\x78\x70\x72\x65\x73\x73\x69\x6f\x6e\x73'](canvas,resizedResults,minConfidence)}let now=new window["\x44\x61\x74\x65"]()['\x67\x65\x74\x54\x69\x6d\x65']();is_speaking=!(stop!==null&&now>stop||start===null);let payload={"\x69\x73\x5f\x61\x62\x73\x65\x6e\x74":is_absent,"\x65\x78\x70\x72\x65\x73\x73\x69\x6f\x6e":expr,"\x74\x69\x6d\x65\x73\x74\x61\x6d\x70":now,"\x69\x73\x5f\x73\x70\x65\x61\x6b\x69\x6e\x67":is_speaking}deliverStatus(payload)}setTimeout(()=>onPlay(videoEl))}async function run(){await changeFaceDetector(SSD_MOBILENETV1);await faceapi['\x6c\x6f\x61\x64\x46\x61\x63\x65\x4c\x61\x6e\x64\x6d\x61\x72\x6b\x4d\x6f\x64\x65\x6c']('\x6d\x6f\x64\x65\x6c\x73');await faceapi['\x6c\x6f\x61\x64\x46\x61\x63\x65\x45\x78\x70\x72\x65\x73\x73\x69\x6f\x6e\x4d\x6f\x64\x65\x6c']('\x6d\x6f\x64\x65\x6c\x73');await faceapi['\x6c\x6f\x61\x64\x46\x61\x63\x65\x52\x65\x63\x6f\x67\x6e\x69\x74\x69\x6f\x6e\x4d\x6f\x64\x65\x6c']('\x6d\x6f\x64\x65\x6c\x73');changeInputSize(224);const stream=await navigator['\x6d\x65\x64\x69\x61\x44\x65\x76\x69\x63\x65\x73']['\x67\x65\x74\x55\x73\x65\x72\x4d\x65\x64\x69\x61']({video:{width:400,height:225}});const videoEl=$('\x23\x69\x6e\x70\x75\x74\x56\x69\x64\x65\x6f')['\x67\x65\x74'](0);videoEl['\x73\x72\x63\x4f\x62\x6a\x65\x63\x74']=stream}window['\x41\x75\x64\x69\x6f\x43\x6f\x6e\x74\x65\x78\x74']=window['\x41\x75\x64\x69\x6f\x43\x6f\x6e\x74\x65\x78\x74']||window['\x77\x65\x62\x6b\x69\x74\x41\x75\x64\x69\x6f\x43\x6f\x6e\x74\x65\x78\x74'];let audioContext=new AudioContext();function startUserMedia(Iz4){audioContext['\x72\x65\x73\x75\x6d\x65']()['\x74\x68\x65\x6e'](()=>{let source=audioContext['\x63\x72\x65\x61\x74\x65\x4d\x65\x64\x69\x61\x53\x74\x72\x65\x61\x6d\x53\x6f\x75\x72\x63\x65'](Iz4);let options={source:source,voice_start:function(){console['\x6c\x6f\x67']('\x76\x6f\x69\x63\x65\x5f\x73\x74\x61\x72\x74');start=new window["\x44\x61\x74\x65"]()['\x67\x65\x74\x54\x69\x6d\x65']()},voice_stop:function(){console['\x6c\x6f\x67']('\x76\x6f\x69\x63\x65\x5f\x73\x74\x6f\x70');stop=new window["\x44\x61\x74\x65"]()['\x67\x65\x74\x54\x69\x6d\x65']();console['\x6c\x6f\x67'](stop-start);start=null;stop=null},};let vad=new VAD(options)})}navigator['\x67\x65\x74\x55\x73\x65\x72\x4d\x65\x64\x69\x61']=navigator['\x67\x65\x74\x55\x73\x65\x72\x4d\x65\x64\x69\x61']||navigator['\x6d\x6f\x7a\x47\x65\x74\x55\x73\x65\x72\x4d\x65\x64\x69\x61']||navigator['\x77\x65\x62\x6b\x69\x74\x47\x65\x74\x55\x73\x65\x72\x4d\x65\x64\x69\x61'];navigator['\x67\x65\x74\x55\x73\x65\x72\x4d\x65\x64\x69\x61']({audio:true},startUserMedia,function(fqCrnG5){console['\x6c\x6f\x67']("\x4e\x6f \x6c\x69\x76\x65 \x61\x75\x64\x69\x6f \x69\x6e\x70\x75\x74 \x69\x6e \x74\x68\x69\x73 \x62\x72\x6f\x77\x73\x65\x72\x3a "+fqCrnG5)});function deliverStatus(gyyr_6){if(payloadLength===0)starttime=new window["\x44\x61\x74\x65"]()['\x67\x65\x74\x54\x69\x6d\x65']();payloads['\x70\x75\x73\x68'](gyyr_6);if(payloadLength>200){endtime=new window["\x44\x61\x74\x65"]()['\x67\x65\x74\x54\x69\x6d\x65']();let status={"\x73\x65\x71":seq++,"\x73\x74\x61\x72\x74":starttime,"\x65\x6e\x64":endtime,"\x73\x74\x61\x74\x75\x73":payloads};let jsonObj=JSON['\x73\x74\x72\x69\x6e\x67\x69\x66\x79'](status);console['\x6c\x6f\x67'](jsonObj);payloadLength=0;payloads['\x6c\x65\x6e\x67\x74\x68']=0}else{payloadLength++}}$(window["\x64\x6f\x63\x75\x6d\x65\x6e\x74"])['\x72\x65\x61\x64\x79'](function(){initFaceDetectionControls();run()});
+// user information
+let forwardTimes = [];
+let withFaceLandmarks = false;
+let withBoxes = true;
+let faceMatcher = null;
+let username = "user";
+
+// absent
+let absentCount = 0;
+let is_absent = false;
+
+// reference
+const faceCount = 20;
+let collected = 0;
+let faceArray = new Array();
+
+//voice interval
+let start = null;
+let stop = null;
+let is_speaking = false;
+
+//expression
+let expr = null;
+
+//payloads
+let payloadLength = 0;
+let payloads = new Array();
+
+//package seq
+let seq = 0;
+let starttime = null;
+let endtime = null;
+
+$("#monitor").draggable();
+
+
+/**
+ * Section Split
+ * Part: face detection
+ * realize a realtime detection and recognition
+ * towards the users and their expressions
+ */
+function onChangeWithFaceLandmarks(e) {
+    withFaceLandmarks = $(e.target).prop('checked')
+}
+
+function onChangeHideBoundingBoxes(e) {
+    withBoxes = !$(e.target).prop('checked')
+}
+
+// update the fps label
+function updateTimeStats(timeInMs) {
+    forwardTimes = [timeInMs].concat(forwardTimes).slice(0, 30);
+    const avgTimeInMs = forwardTimes.reduce((total, t) => total + t) / forwardTimes.length;
+    $('#time').val(`${Math.round(avgTimeInMs)} ms`);
+    $('#fps').val(`${faceapi.round(1000 / avgTimeInMs)}`);
+}
+
+// return the feature of the username
+// function getFeatures(username, password) {
+//     let result = axios.get("http://162.105.142.2:8000/api/persons/?name=" + username,
+//         {
+//             auth: {
+//                 username: username,
+//                 password: password
+//             }
+//         })
+//         .then(function (response) {
+//             return response.data.results[0].features;
+//         })
+//         .catch(function (e) {
+//             console.log(e);
+//         });
+//     return result;
+// }
+
+// calculate the average of the cols
+function calculateAverCol(array){
+    let averArray = new Array();
+    for(let j=0;j<array[j%array.length].length;j++) {
+        let sum = 0;
+        for (let i = 0; i < array.length; i++) {
+            sum += array[i][j];
+        }
+        let aver = sum / array.length;
+        averArray.push(aver);
+    }
+    return averArray;
+}
+
+// cycle function of video capture
+async function onPlay(videoEl) {
+
+    if (!videoEl.currentTime || videoEl.paused || videoEl.ended || !isFaceDetectionModelLoaded())
+        return setTimeout(() => onPlay(videoEl));
+
+    const options = getFaceDetectorOptions();
+    const ts = Date.now();
+    const drawBoxes = withBoxes;
+    const drawLandmarks = withFaceLandmarks;
+    // operations to detect the facelandmarks, faceExpressions, faceDescriptors
+    let results = await faceapi.detectAllFaces(videoEl, options)
+        .withFaceLandmarks()
+        .withFaceExpressions()
+        .withFaceDescriptors();
+    updateTimeStats(Date.now() - ts);
+    const canvas = $('#overlay').get(0);
+    const dims = faceapi.matchDimensions(canvas, videoEl, true);
+
+    // serialize the recognition results
+    const resizedResults = faceapi.resizeResults(results, dims);
+    // get the features of the reference user stored in the SessionStorage
+    // pasre the data into Float32Array
+    // unite the username and the features referred before
+    if (collected < faceCount && resizedResults.length === 1){
+        faceArray.push(resizedResults[0].descriptor);
+        collected++;
+
+    }else if (collected === faceCount){
+        collected++;
+        labeldFeatures = new Float32Array(calculateAverCol(faceArray));
+        console.log(labeldFeatures);
+    }else{
+        const labeledDescriptors = [
+            new faceapi.LabeledFaceDescriptors(
+                username,
+                [labeldFeatures]
+            ),
+        ];
+
+        // create a object to store the username
+        // TODO: simplify the names
+        let faceObject = {};
+        faceObject.names = [];
+        if (results.length) {
+            // realize the faceMatcher to match the face captured in the camera with the labeledFeatures
+            faceMatcher = new faceapi.FaceMatcher(labeledDescriptors);
+            resizedResults.forEach(({detection, descriptor, expressions}) => {
+                const expression = Object.keys(expressions).sort(function (a, b) {
+                    return expressions[b] - expressions[a]
+                })[0];
+                expr = expression;
+
+                // get the label: username or unknown, pick one in the bi-set
+                const label = faceMatcher.findBestMatch(descriptor).toString();
+                // console.log(label);
+                faceObject.names.push((label !== "unknown") ? label.split(' ')[0] : label);
+                const options = {label};
+                const drawBox = new faceapi.draw.DrawBox(detection.box, options);
+                drawBox.draw(canvas);
+            });
+        }
+
+        // note the user that he is absent in the camera in 50 frames
+        if (-1 === faceObject.names.indexOf(username)) {
+            absentCount++;
+            if (absentCount === 5) {
+                // let audioUrl = "http://audio.dict.cc/speak.audio.php?type=mp3&lang=en&text=where are you?";
+                // $('#audio').attr('src', audioUrl);
+                // let audio = $('#audio');
+                absentCount = 0;
+                is_absent = true;
+            }
+        }
+        else {
+            is_absent = false;
+        }
+
+        // draw the boxes
+        if (drawBoxes) {
+            // faceapi.draw.drawDetections(canvas, resizedResults);
+            faceapi.draw.drawFaceExpressions(canvas, resizedResults, minConfidence);
+        }
+        if (drawLandmarks) {
+            faceapi.draw.drawFaceLandmarks(canvas, resizedResults);
+            faceapi.draw.drawFaceExpressions(canvas, resizedResults, minConfidence);
+        }
+        let now = new Date().getTime();
+        is_speaking = !(stop !== null && now > stop || start === null);
+        let payload = {"is_absent":is_absent,"expression":expr,"timestamp": now, "is_speaking":is_speaking}
+        deliverStatus(payload);
+    }
+    setTimeout(() => onPlay(videoEl));
+}
+
+// the async function the initalize the Model
+async function run() {
+    await changeFaceDetector(SSD_MOBILENETV1);
+    await faceapi.loadFaceLandmarkModel('models');
+    await faceapi.loadFaceExpressionModel('models');
+    await faceapi.loadFaceRecognitionModel('models');
+    changeInputSize(224);
+
+    // try to access users webcam and stream the images
+    // to the video element
+    const stream = await navigator.mediaDevices.getUserMedia({video: {width: 400, height: 225}});
+    const videoEl = $('#inputVideo').get(0);
+    videoEl.srcObject = stream;
+}
+
+
+/**
+ * Section Split
+ * Part: voice activity detection
+ * based on vad.js
+ * detect the voice who may be cheating
+ * with the function of interactive communication
+ * json format deliverd
+ */
+
+// Create AudioContext
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
+let audioContext = new AudioContext();
+
+
+// Define function called by getUserMedia
+function startUserMedia(stream) {
+    // Create MediaStreamAudioSourceNode
+    audioContext.resume().then(() => {
+        let source = audioContext.createMediaStreamSource(stream);
+
+        // Setup options
+        let options = {
+            source: source,
+            voice_start: function () {
+                console.log('voice_start');
+                start = new Date().getTime();
+            },
+            voice_stop: function () {
+                console.log('voice_stop');
+                stop = new Date().getTime();
+                console.log(stop-start);
+                start = null;
+                stop = null;
+            },
+        };
+
+        // Create VAD
+        let vad = new VAD(options);
+    });
+}
+
+// Ask for audio device
+navigator.getUserMedia = navigator.getUserMedia ||
+    navigator.mozGetUserMedia ||
+    navigator.webkitGetUserMedia;
+navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
+    console.log("No live audio input in this browser: " + e);
+});
+
+
+/**
+ * Section Split
+ * Communicate with the server
+ * send json
+ * @is_absent
+ * @expression
+ * @is_speaking
+ * @timestamp
+ * TODO: @content, @keyframe
+ */
+function deliverStatus(payload){
+    if (payloadLength === 0) starttime = new Date().getTime();
+    payloads.push(payload);
+    if (payloadLength > 200){
+        endtime = new Date().getTime();
+        let status = {"seq": seq++, "start": starttime, "end": endtime, "status": payloads};
+        let jsonObj = JSON.stringify(status);
+        //deliver jsonobj
+        console.log(jsonObj);
+        payloadLength = 0;
+        payloads.length = 0;
+    } else {
+        payloadLength++;
+    }
+}
+
+$(document).ready(function () {
+    initFaceDetectionControls();
+    run();
+});
